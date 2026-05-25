@@ -7,7 +7,7 @@ const RegisterPage = () => {
   return (
     <div className="flex flex-col bg-[#f3f4f6]">
       {/* Main Content */}
-      <main className="flex items-center justify-center px-4 py-10">
+      <main className="container mx-auto flex items-center justify-center px-4 py-10">
         <div className="bg-white w-full max-w-125 p-8 shadow-sm rounded-sm">
           {/* Header */}
           <h2 className="text-2xl font-bold text-center text-[#3b3b3b] mb-6">
