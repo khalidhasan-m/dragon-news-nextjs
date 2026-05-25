@@ -2,8 +2,17 @@
 import React from "react";
 import Link from "next/link";
 import Form from "next/form";
+import { useForm } from "react-hook-form";
 
 const RegisterPage = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const handleRegisterFunc = (data) => {
+    console.log("Register Data:", data);
+  };
   return (
     <div className="flex flex-col bg-[#f3f4f6]">
       {/* Main Content */}
@@ -17,7 +26,7 @@ const RegisterPage = () => {
           {/* Divider */}
           <hr className="border-gray-200 mb-6" />
 
-          <Form action="/register-endpoint">
+          <Form action="/register-endpoint" onSubmit={handleSubmit(handleRegisterFunc)}>
             {/* Name Input */}
             <div className="mb-4">
               <label
@@ -31,9 +40,15 @@ const RegisterPage = () => {
                 name="name"
                 id="name"
                 placeholder="Enter your name"
+                {...register("name", { required: true })}
                 className="w-full bg-[#f3f4f6] p-3 rounded focus:outline-none focus:ring-2 focus:ring-gray-300 text-gray-700"
                 required
               />
+              {errors.name && (
+                <span className="text-red-500 text-sm">
+                  This field is required
+                </span>
+              )}
             </div>
 
             {/* Photo URL Input */}
@@ -49,6 +64,7 @@ const RegisterPage = () => {
                 name="photoUrl"
                 id="photoUrl"
                 placeholder="Enter your photo URL"
+                {...register("photoUrl")}
                 className="w-full bg-[#f3f4f6] p-3 rounded focus:outline-none focus:ring-2 focus:ring-gray-300 text-gray-700"
               />
             </div>
@@ -66,9 +82,14 @@ const RegisterPage = () => {
                 name="email"
                 id="email"
                 placeholder="Enter your email address"
+                {...register("email", { required: true })}
                 className="w-full bg-[#f3f4f6] p-3 rounded focus:outline-none focus:ring-2 focus:ring-gray-300 text-gray-700"
-                required
               />
+              {errors.email && (
+                <span className="text-red-500 text-sm">
+                  This field is required
+                </span>
+              )}
             </div>
 
             {/* Password Input */}
@@ -84,9 +105,14 @@ const RegisterPage = () => {
                 name="password"
                 id="password"
                 placeholder="Enter your password"
+                {...register("password", { required: true })}
                 className="w-full bg-[#f3f4f6] p-3 rounded focus:outline-none focus:ring-2 focus:ring-gray-300 text-gray-700"
-                required
               />
+              {errors.password && (
+                <span className="text-red-500 text-sm">
+                  This field is required
+                </span>
+              )}
             </div>
 
             {/* Terms and Conditions Checkbox */}
@@ -96,7 +122,7 @@ const RegisterPage = () => {
                 name="terms"
                 id="terms"
                 className="w-4 h-4 mr-3 rounded border-gray-300 text-[#404040] focus:ring-[#404040]"
-                required
+                {...register("terms", { required: true })}
               />
               <label
                 htmlFor="terms"
@@ -112,7 +138,7 @@ const RegisterPage = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-[#404040] text-white font-bold text-base py-3 rounded hover:bg-[#2d2d2d] transition-colors"
+              className="w-full bg-[#404040] text-white font-bold text-base py-3 rounded hover:bg-[#2d2d2d] cursor-pointer transition-colors"
             >
               Register
             </button>

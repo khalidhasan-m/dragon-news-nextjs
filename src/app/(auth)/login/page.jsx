@@ -2,8 +2,18 @@
 import Link from "next/link";
 import Form from "next/form";
 import React from "react";
+import { useForm } from "react-hook-form";
 
 const LoginPage = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const handleLoginFunc = (data) => {
+    console.log("Login Data:", data);
+  };
+
   return (
     <main
       className="container mx-auto flex items-center justify-center px-4 py-10
@@ -19,7 +29,7 @@ const LoginPage = () => {
         <hr className="border-gray-200 mb-6" />
 
         {/* Next.js Form Component */}
-        <Form action="/login-endpoint">
+        <Form action="/login-endpoint" onSubmit={handleSubmit(handleLoginFunc)}>
           {/* Email Input */}
           <div className="mb-4">
             <label
@@ -30,12 +40,16 @@ const LoginPage = () => {
             </label>
             <input
               type="email"
-              name="email"
               id="email"
               placeholder="Enter your email address"
+              {...register("email", { required: true })}
               className="w-full bg-[#f3f4f6] p-3 rounded focus:outline-none focus:ring-2 focus:ring-gray-300 text-gray-700"
-              required
             />
+            {errors.email && (
+              <span className="text-red-500 text-sm">
+                This field is required
+              </span>
+            )}
           </div>
 
           {/* Password Input */}
@@ -48,18 +62,22 @@ const LoginPage = () => {
             </label>
             <input
               type="password"
-              name="password"
               id="password"
               placeholder="Enter your password"
+              {...register("password", { required: true })}
               className="w-full bg-[#f3f4f6] p-3 rounded focus:outline-none focus:ring-2 focus:ring-gray-300 text-gray-700"
-              required
             />
+            {errors.password && (
+              <span className="text-red-500 text-sm">
+                This field is required
+              </span>
+            )}
           </div>
 
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-[#404040] text-white font-bold text-base py-3 rounded hover:bg-[#2d2d2d] transition-colors"
+            className="w-full bg-[#404040] text-white font-bold text-base py-3 rounded hover:bg-[#2d2d2d] cursor-pointer transition-colors"
           >
             Login
           </button>
