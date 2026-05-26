@@ -3,6 +3,7 @@ import React from "react";
 import Link from "next/link";
 import Form from "next/form";
 import { useForm } from "react-hook-form";
+import { authClient } from "@/lib/auth-client"; //import the auth client
 
 const RegisterPage = () => {
   const {
@@ -10,8 +11,28 @@ const RegisterPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const handleRegisterFunc = (data) => {
+  const handleRegisterFunc = async (data) => {
+    const { name, photoUrl, email, password } = data;
     console.log("Register Data:", data);
+    // Add your registration logic here
+
+    const { data: res, error } = await authClient.signUp.email({
+      email: email, // user email address
+      password: password, // user password -> min 8 characters by default
+      name: name, // user display name
+      image: photoUrl, // User image URL (optional)
+      callbackURL: "/", // A URL to redirect to after the user verifies their email (optional)
+    });
+    console.log("Registration Response:", res, error);
+    if (error) {
+      // Handle registration error (e.g., show an error message to the user)
+      alert(error.message);
+
+    }
+    if (res) {
+      // Handle successful registration (e.g., show a success message or redirect the user)
+      alert("Registration successful! Please check your email to verify your account.");
+    }
   };
   return (
     <div className="flex flex-col bg-[#f3f4f6]">
@@ -26,7 +47,10 @@ const RegisterPage = () => {
           {/* Divider */}
           <hr className="border-gray-200 mb-6" />
 
-          <Form action="/register-endpoint" onSubmit={handleSubmit(handleRegisterFunc)}>
+          <Form
+            action="/register-endpoint"
+            onSubmit={handleSubmit(handleRegisterFunc)}
+          >
             {/* Name Input */}
             <div className="mb-4">
               <label

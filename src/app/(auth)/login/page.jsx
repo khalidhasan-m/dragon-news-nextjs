@@ -3,6 +3,7 @@ import Link from "next/link";
 import Form from "next/form";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { authClient } from "@/lib/auth-client";
 
 const LoginPage = () => {
   const {
@@ -10,8 +11,30 @@ const LoginPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const handleLoginFunc = (data) => {
+  const handleLoginFunc = async (data) => {
     console.log("Login Data:", data);
+    // Add your login logic here
+    const { data: res, error } = await authClient.signIn.email({
+      /**
+       * The user email
+       */
+      email: data.email,
+      /**
+       * The user password
+       */
+      password: data.password,
+      /**
+       * A URL to redirect to after the user logs in (optional)
+       */
+      callbackURL: "/",
+      /**
+       * remember the user session after the browser is closed.
+       * @default true
+       */
+      rememberMe: true,
+    });
+    console.log("Login Response:", res, error);
+    
   };
 
   return (
