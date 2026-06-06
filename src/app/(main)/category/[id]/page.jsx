@@ -27,9 +27,14 @@ const NewsCategoryPage = async ({ params }) => {
             return <NewsCard key={n._id} news={n} />;
           })
         ) : (
-          <h2 className="font-bold text-4xl text-center p-20 my-7">
-            No news found!
-          </h2>
+          <div className="flex flex-col items-center justify-center py-24 text-center">
+            <h2 className="text-4xl font-bold text-[#403F3F]">No News Found</h2>
+
+            <p className="mt-4 max-w-md text-gray-500">
+              We couldn&apos;t find any news articles matching your request.
+              Please try another category or check back later.
+            </p>
+          </div>
         )}
       </div>
       <div className="col-span-3">
